@@ -38,18 +38,21 @@ var data = [
 		value: 300,
 		color:"#F7464A",
 		highlight: "#FF5A5E",
+        expand : false,
 		label: "Red"
 	},
 	{
 		value: 50,
 		color: "#46BFBD",
 		highlight: "#5AD3D1",
+        expand : false,
 		label: "Green"
 	},
 	{
 		value: 100,
 		color: "#FDB45C",
 		highlight: "#FFC870",
+        expand : true,
 		label: "Yellow"
 	}
 ]
@@ -72,7 +75,13 @@ These are the customisation options specific to Pie & Doughnut charts. These opt
 	//Number - The width of each segment stroke
 	segmentStrokeWidth : 2,
 
-	//Number - The percentage of the chart that we cut out of the middle
+    //Boolean - Enable expand specific segment
+    segmentEnableExpand : false,
+    
+    //Number - The percentage of expansion outside the chart circunference
+    segmentExpandPercentage : 10,
+
+    //Number - The percentage of the chart that we cut out of the middle
 	percentageInnerCutout : 50, // This is 0 for Pie charts
 
 	//Number - Amount of animation steps

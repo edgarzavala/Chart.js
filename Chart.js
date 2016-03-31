@@ -1,7 +1,7 @@
 /*!
  * Chart.js
  * http://chartjs.org/
- * Version: 1.0.2
+ * Version: 1.0.3
  *
  * Copyright 2015 Nick Downie
  * Released under the MIT license
@@ -2573,8 +2573,14 @@
 
 		//Number - The width of each segment stroke
 		segmentStrokeWidth : 2,
+        
+        //Boolean - Enable expand specific segment
+        segmentEnableExpand : false,
 
-		//The percentage of the chart that we cut out of the middle.
+        //Number - The percentage of expansion outside the chart circunference
+        segmentExpandPercentage : 10,
+
+        //The percentage of the chart that we cut out of the middle.
 		percentageInnerCutout : 50,
 
 		//Number - Amount of animation steps
@@ -2656,6 +2662,7 @@
 			}
 			this.segments.splice(index, 0, new this.SegmentArc({
 				value : segment.value,
+                expand : segment.expand,
 				outerRadius : (this.options.animateScale) ? 0 : this.outerRadius,
 				innerRadius : (this.options.animateScale) ? 0 : (this.outerRadius/100) * this.options.percentageInnerCutout,
 				fillColor : segment.color,
@@ -2725,10 +2732,13 @@
 			helpers.each(this.segments,function(segment,index){
 				segment.transition({
 					circumference : this.calculateCircumference(segment.value),
-					outerRadius : this.outerRadius,
+					outerRadius : (this.options.segmentEnableExpand ? 
+                                   segment.expand != null && segment.expand == true ? this.outerRadius : this.outerRadius - 
+                                   ( this.outerRadius/100 * this.options.segmentExpandPercentage)
+                                   : this.outerRadius ),
 					innerRadius : (this.outerRadius/100) * this.options.percentageInnerCutout
 				},animDecimal);
-
+                
 				segment.endAngle = segment.startAngle + segment.circumference;
 
 				segment.draw();
